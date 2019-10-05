@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawnController : MonoBehaviour
+public class Scene2SpawnController : MonoBehaviour
 {
     public GameObject Player;
     public GameObject PlayerPrefab;
@@ -15,7 +15,27 @@ public class PlayerSpawnController : MonoBehaviour
     {
         getLastScene();
         addSpawnlocations();
+
+        if(getLastScene() == "Scene1")
+        {
         respawnAt(0);
+        }
+        else if(getLastScene() == "Scene2")
+        {
+        respawnAt(0);
+        }
+        else if(getLastScene() == "Scene3")
+        {
+        respawnAt(1);
+        }
+        else if(getLastScene() == "Scene4")
+        {
+        respawnAt(2);
+        }
+        else
+        {
+        respawnAt(0);
+        }
     }
 
     string getLastScene()

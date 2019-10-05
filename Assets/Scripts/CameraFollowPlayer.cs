@@ -4,24 +4,32 @@ using UnityEngine;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
+    public Transform target;
+    public float smoothSpeed = 0.3f;
+    public Vector3 offset;
 
-    public GameObject player;
-    public float moveSpeed;
-    private Vector3 offset;
+    public float posY;
+
+    private Vector3 velocity = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        offset = transform.position - player.transform.position;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
-        if(player !=null)
+        if(target!=null)
         {
-        // transform.position = Vector3.Lerp(transform.position,player.transform.position, Time.deltaTime * -moveSpeed);
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+
+
+        Vector3 targetPosition = target.TransformPoint(new Vector3(0,posY,-10));
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothSpeed);
+
+        // Vector3 smoothedPosition = Vector2.SmoothDamp(transform.position,desiredPosition,ref velocity,smoothSpeed);
+        // transform.position = smoothedPosition;
+        // transform.LookAt(target);
         }
     }
+
 }

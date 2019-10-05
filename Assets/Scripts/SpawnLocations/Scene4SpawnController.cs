@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawnController : MonoBehaviour
+public class Scene4SpawnController : MonoBehaviour
 {
     public GameObject Player;
     public GameObject PlayerPrefab;
@@ -15,10 +15,18 @@ public class PlayerSpawnController : MonoBehaviour
     {
         getLastScene();
         addSpawnlocations();
+
+        if(getLastScene() == "Scene2") //spawn the player at this position based on his last scene
+        {
         respawnAt(0);
+        }
+        else //spawn player at 0 if no previous scene can can be found
+        {
+        respawnAt(0);
+        }
     }
 
-    string getLastScene()
+    string getLastScene() //returns the string of the last scene that the player visited
     {
         if(PlayerPrefs.GetString("lastLoadedScene") != null)
         {
@@ -48,17 +56,5 @@ public class PlayerSpawnController : MonoBehaviour
             Player = Instantiate(PlayerPrefab);
             Player.transform.position = SpawnLocation[x].transform.position;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     public float speed;
-    public float jumpForce;
+
     private float moveInput; //-1 is left 1 is right
 
     private string playerDirection; 
@@ -33,13 +33,16 @@ public class PlayerController : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
 
-    private float jumpTimeCounter;
-    public float jumpTime;
-    private bool isJumping;
 
     public bool isInvincible; //is it invincible?
     private float invincibleTimer=0.0f; //the timer for invincibility
     private float invincibleDuration=5.0f; //the duration of the invincibility
+
+
+    [Range(1,50)]
+    public float jumpVelocity;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -52,10 +55,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        movement();
+
+
+        Debug.Log("Facing: " + playerDirection);
+    }
+
+    void movement()
+    {
         moveInput = Input.GetAxisRaw("Horizontal");
         setDirection(moveInput);
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-        Debug.Log("Facing: " + playerDirection);
     }
 
     void setDirection(float input) //check moveInput and set string to Left or Right
@@ -71,46 +81,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void jump()
+    {
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.velocity = Vector2.up * jumpVelocity;
+        }
+
+        if(rb.velocity.y < 0) //this handles the falling motion
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime; 
+        }
+        else if(rb.velocity.y > 0 && !Input.GetButton("Jump")) //if the character is still jumping up and you are not holding the jump button
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime; 
+        }
+    }
+
     void Update()
     {
         
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 
-        if(moveInput > 0)
+        if(moveInput > 0) //if he faces left
         {
-            transform.eulerAngles = new Vector3(0,0,0);
-            
+            this.GetComponent<SpriteRenderer>().flipX = true;
+            // transform.eulerAngles = new Vector3(0,0,0);
         }
-        else if(moveInput < 0)
+        else if(moveInput < 0) //if facing right
         {
-            transform.eulerAngles = new Vector3(0,180,0);
-        }
-
-        if(isGrounded == true && Input.GetKeyDown(KeyCode.Space))
-        {
-            isJumping = true;
-            jumpTimeCounter = jumpTime;
-            rb.velocity = Vector2.up * jumpForce;
+            this.GetComponent<SpriteRenderer>().flipX = false;
+            // transform.eulerAngles = new Vector3(0,180,0);
         }
 
-        if(Input.GetKey(KeyCode.Space) && isJumping==true)
-        {
-            if(jumpTimeCounter > 0)
-            {
-
-            rb.velocity = Vector2.up * jumpForce;
-            jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
-
-            if(Input.GetKeyUp(KeyCode.Space)){
-                isJumping = false;
-            }
-
-        }
+        
+        jump(); //jump functions
 
     }
 
