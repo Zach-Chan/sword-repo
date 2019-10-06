@@ -8,6 +8,7 @@ public class AttackCollider : MonoBehaviour
     public GameObject Enemy;
     public GameObject Player;
     public int damage;
+
     // Start is called before the first frame update
     void Awake()
     {

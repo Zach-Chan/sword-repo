@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4761374396142816407}
   - component: {fileID: 4761374396142816406}
   - component: {fileID: 4761374396142816405}
+  - component: {fileID: 4389635645497448298}
   m_Layer: 0
   m_Name: FlyingEnemy1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +64,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499595d5f68814731bb62705acae5b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 5610837273881215791, guid: c62b8bf76d0e9486fa3ea8cb852225ec, type: 3}
   enemyGFX: {fileID: 4761374396208289801}
   speed: 400
   nextWaypointDistance: 3
@@ -116,6 +116,28 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &4389635645497448298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761374396142816409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 018c95756f38746e1b0c8962e9ef3ab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  damage: 0
+  enemyTypes:
+  - Sword
+  - Thrall
+  - Gargoyle
+  - Hound
+  - Warden
+  - Knight
+  isInvincible: 0
 --- !u!1 &4761374396208289800
 GameObject:
   m_ObjectHideFlags: 0
